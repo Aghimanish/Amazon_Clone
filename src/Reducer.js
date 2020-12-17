@@ -1,23 +1,23 @@
 export const initialState={
-    user:null,
+    basket:[],
 };
 
-export const actionTypes = {
-    SET_USER: "SET_USER",
-};
+// Selector
+export const getBasketTotal = (basket) =>
+    basket?.reduce((amount, item)=> item.price + amount, 0);
+
 
 const reducer = (state, action) => {
     console.log(action);
-
     switch(action.type){
-        case actionTypes.SET_USER:
+        case 'ADD_TO_BASKET':
             return {
                 ...state,
-                user:action.user
-            }
+                basket:[...state.basket, action.item],
+            };
             default:
                 return state;
     }
-}
+};
 
 export default reducer;
