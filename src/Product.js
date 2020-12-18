@@ -4,6 +4,10 @@ import { useStateValue } from './StateProvider';
 
 function Product({id, title, image, price, rating}) {
     const [{basket}, dispatch] = useStateValue();
+<<<<<<< HEAD
+=======
+    console.log("This is the basket>>>>>>>>>>",basket);
+>>>>>>> b435964569b0a8456552fcda9a54e4b85f2078f3
 
     const addToBasket = () => {
         // dispath the item into the data layer
@@ -36,7 +40,10 @@ function Product({id, title, image, price, rating}) {
             <img src={image} alt=""/>
             <button onClick={addToBasket}>Add To Basket</button>
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> b435964569b0a8456552fcda9a54e4b85f2078f3
     )
 }
 

@@ -1,6 +1,9 @@
 export const initialState={
     basket:[],
+<<<<<<< HEAD
     user:null
+=======
+>>>>>>> b435964569b0a8456552fcda9a54e4b85f2078f3
 };
 
 // Selector
@@ -16,6 +19,7 @@ const reducer = (state, action) => {
                 ...state,
                 basket:[...state.basket, action.item],
             };
+<<<<<<< HEAD
         case 'REMOVE_FROM_BASKET':
             const index = state.basket.findIndex(
                 (basketItem) => basketItem.id === action.id
@@ -41,5 +45,11 @@ const reducer = (state, action) => {
             }
             
 }
+=======
+            default:
+                return state;
+    }
+};
+>>>>>>> b435964569b0a8456552fcda9a54e4b85f2078f3
 
 export default reducer;
