@@ -1,36 +1,56 @@
-import React from 'react';
-import './Login.css';
-import {Button} from "@material-ui/core";
-import {auth, provider} from "./firebase";
-import {useStateValue} from "./StateProvider";
-import {actionTypes} from "./Reducer";
+import React,{useState} from 'react';
+import "./Login.css";
+import {Link, useHistory} from "react-router-dom";
+import {auth} from "./firebase";
 
 function Login() {
-    const [state, dispatch] = useStateValue();
+    const history = useHistory();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+   
+    const signIn = (e) => {
+        e.preventDefault();
+        auth.signInWithEmailAndPassword(email,password)
+        .then(auth =>{
+            history.push('/');
+        })
+        .catch(error => alert(error.message))
+    }
 
-    const signIn = () =>{
-        auth
-        .signInWithPopup(provider)
-        .then(result=>{
-            console.log(result);
-            dispatch({
-                type:actionTypes.SET_USER,
-                user:result.user
-            })
+    const register = (e) => {
+        e.preventDefault();
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((auth) => {
+            console.log(auth);
+            if(auth){
+                history.push('/');
+            }
         })
-        .catch(error=>{
-            alert(error.message);
-        })
+        .catch(error => alert(error.message))
+        // Here do some fancy firebase register code......
+
     }
 
     return (
         <div className="login">
-           <div className="login_container">
-               <img src="https://cdn.mos.cms.futurecdn.net/SDDw7CnuoUGax6x9mTo7dd.jpg" alt=""/>
-               <h1>Sign in to Programmer Slack</h1>
-               <p>programmers.slack.com</p>
-                <Button onClick={signIn}>Sign In With Google</Button>
-            </div> 
+            <Link to="/">
+                <img className="login_logo" 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png"/> 
+            </Link>
+            <div className="login_container">
+                <h1>Sign-in</h1>
+                <form>
+                    <h5>E-mail</h5>
+                    <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+                    <h5>Password</h5>
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                    <button type="submit" onClick={signIn} className="login_signInButton">Sign In</button>
+                </form>
+                <p>By signing-in you agree to AMAZON CLONE Condition of Use & Sale. PLease see our Privacy 
+                    Notice, our Cookies Notice and out Interest-Based Ads Notice.
+                </p>
+                <button onClick={register} className="login_registerButton">Create your Amazon Account</button>
+            </div>
         </div>
     )
 }

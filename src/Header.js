@@ -1,34 +1,66 @@
- import React from 'react';
- import './Header.css';
- import {Avatar} from "@material-ui/core";
-import AccessTimeIcon from "@material-ui/icons/AccessTime"
-import SearchIcon from "@material-ui/icons/Search";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import {useStateValue} from "./StateProvider";
+import React from "react";
+import "./Header.css";
+import SearchIcon from '@material-ui/icons/Search';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import {Link} from "react-router-dom"; 
+import { useStateValue } from "./StateProvider";
+import {auth} from "./firebase";
 
 function Header() {
-    const [{user}] = useStateValue();
-    return (
-        <div className="header"> 
-            <div className="header_left">
-                <Avatar 
-                    className="header_avatar" 
-                    alt={user?.displayName}
-                    src={user?.photoURL}
-                />
-                <AccessTimeIcon />
-            {/* Avatar for logged in user */}
+    const [{basket, user}, dispatch] = useStateValue();
 
-            {/* Time icon */}
-            </div>
+    const handleAuthentication = () =>{
+        if(user){
+            auth.signOut();
+        }
+    }
+
+    return (
+        <div className="header">
+            <Link to="/">
+                <img className="header_logo" src="http://pngimg.com/uploads/amazon/amazon_PNG11.png"/>
+            </Link>
             <div className="header_search">
-                <SearchIcon />
-                <input placeholder="Search Channel Here" type="text"/>
-            </div>       
-            <div className="header_right">
-                <HelpOutlineIcon />
+                <input className="header_searchInput" type="text"/>
+                <SearchIcon className="header_searchIcon"/>
+            </div>
+            <div className="header_nav">
+                <Link to={!user && "/login"}>
+                    <div onClick={handleAuthentication} className="header_option">
+                        <span className="header_optionLineOne">
+                            Hello Guest
+                        </span>
+                        <span className="header_optionLineTwo">
+                            {user ?'Sign Out' : 'Sign In'}
+                        </span>
+                    </div>
+                </Link>
+                <div className="header_option">
+                    <span className="header_optionLineOne">
+                        Returns
+                    </span>
+                    <span className="header_optionLineTwo">
+                        & Orders
+                    </span>
+                </div>
+                <div className="header_option">
+                    <span className="header_optionLineOne">
+                        Your
+                    </span>
+                    <span className="header_optionLineTwo">
+                        Prime
+                    </span>
+                </div>
+                <Link to="/checkout">
+                    <div className="header_optionBasket">
+                    <ShoppingCartIcon />
+                    <span className="header_optionLineTwo header_basketCount">{basket?.length}</span>
+                    </div>
+                </Link>
+                
             </div>
         </div>
+        
     )
 }
 
