@@ -8,6 +8,9 @@
     z-index: 100;
 }
 
+.header_nav > a{
+    text-decoration: none;
+}
 .header_logo{
     width:100px;
     object-fit:contain;
@@ -31,7 +34,8 @@
 }
 
 .header_optionLineOne{
-    font-size:10px;
+    font-size:15px;
+    text-decoration: none;
 }
 
 .header_optionLineTwo{
